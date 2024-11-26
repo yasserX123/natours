@@ -19,6 +19,9 @@ const viewRouter = require('./routes/viewRoutes');
 // Start Express
 const app = express();
 
+//For Deployment to trust proxies such as the ones that heruko uses
+//app.enable('trust proxy') //Turn on when you deploy
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -81,7 +84,7 @@ app.use(
   }),
 );
 
-app.use(compression());
+app.use(compression()); //compress the website for example from 14KB to 2KB 😎
 
 // Testing middleware
 app.use((req, res, next) => {

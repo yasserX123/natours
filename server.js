@@ -39,3 +39,11 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
   });
 });
+
+//This one is special for heruko which sends every 24hrs a sigterm signal to ask the app to shut down and then restart
+process.on('SIGTERM', () => {
+  console.log('🥱 SIGTERM RECEIVED. Shutting down gracefully');
+  server.close(() => {
+    console.log('🤡 Process terminated!');
+  });
+});

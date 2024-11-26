@@ -20,10 +20,21 @@ const createSendToken = (user, statusCode, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true, //cookie can't be modified or accessed by the browser (preventing Cross-site-scripting attacks)
+    //secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
   };
 
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true; //now cookie will be send only when we are on https
+
   res.cookie('jwt', token, cookieOptions);
+
+  //Turn this on when you deploy
+  // res.cookie('jwt', token, cookieOptions, {
+  //   expires: new Date(
+  //     Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
+  //   ),
+  //   httpOnly: true, //cookie can't be modified or accessed by the browser (preventing Cross-site-scripting attacks)
+  //   secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
+  // });
 
   // Remove password from output
   user.password = undefined;
